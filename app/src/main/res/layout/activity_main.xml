@@ -5,6 +5,12 @@
     android:gravity="center_horizontal"
     android:background="@drawable/gradient_background">
 
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/sw_logo"
+        android:layout_marginTop="32dp" />
+
     <!-- Título -->
     <TextView
         android:id="@+id/titulo"
@@ -31,9 +37,10 @@
         android:id="@+id/btn_comecar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Começar"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="200dp"
         android:layout_marginBottom="24dp"
+        android:background="@drawable/button_background"
         android:backgroundTint="#FFFFFF"
+        android:text="Começar"
         android:textColor="#000000" />
 </LinearLayout>
