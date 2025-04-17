@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import androidx.annotation.OptIn;
 import androidx.camera.core.ExperimentalGetImage;
-import com.google.mlkit.vision.barcode.*;
+
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
@@ -29,7 +29,7 @@ public class ScannerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scanner);
+        setContentView(R.layout.activity_camera);
 
         previewView = findViewById(R.id.previewView);  // Alterado de SurfaceView para PreviewView
 

@@ -1,23 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/gradient_background">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- Título -->
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
+        android:text="WiseShopping"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginTop="32dp"/>
+
+    <!-- Subtítulo -->
+    <TextView
+        android:id="@+id/slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O seu assistente de compras inteligente"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:layout_marginBottom="16dp"
         />
 
     <Button
-        android:id="@+id/scan_button"
+        android:id="@+id/btn_comecar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scan Código de Barras" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:text="Começar"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="#000000" />
+</LinearLayout>
