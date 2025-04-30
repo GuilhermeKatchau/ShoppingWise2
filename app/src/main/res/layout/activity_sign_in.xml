@@ -30,67 +30,69 @@
             android:layout_marginBottom="24dp" />
 
         <!-- Caixa branca arredondada -->
+
+        <!-- Botões sociais -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="4dp"
             android:orientation="vertical"
-            android:padding="24dp"
-            android:elevation="4dp">
-        <!-- android:background="@drawable/login_box_background" -->
+            android:padding="24dp">
+            <!-- android:background="@drawable/login_box_background" -->
 
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Sign In"
-             android:textStyle="bold"
-             android:textSize="20sp"
-             android:layout_gravity="center_horizontal"
-             android:layout_marginBottom="16dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:text="Sign In"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-         <EditText
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:hint="Username"
-             android:inputType="textPersonName"
-             android:layout_marginBottom="8dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Username"
+                android:inputType="textPersonName" />
 
-         <EditText
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:hint="Password"
-             android:inputType="textPassword"
-             android:layout_marginBottom="8dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Password"
+                android:inputType="textPassword" />
 
-         <EditText
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:hint="Email"
-             android:inputType="textEmailAddress"
-             android:layout_marginBottom="8dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
 
-         <EditText
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:hint="Phone Number"
-             android:inputType="phone"
-             android:layout_marginBottom="16dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="Phone Number"
+                android:inputType="phone" />
 
-         <Button
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:text="Sign In"
-             android:backgroundTint="#0192AD"
-             android:textColor="#FFFFFF" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0192AD"
+                android:text="Sign In"
+                android:textColor="#FFFFFF" />
 
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="New to WiseShopping? Sign Up"
-             android:layout_gravity="center_horizontal"
-             android:layout_marginTop="16dp" />
-     </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="New to WiseShopping? Sign Up" />
+        </LinearLayout>
 
-     <!-- Botões sociais -->
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
