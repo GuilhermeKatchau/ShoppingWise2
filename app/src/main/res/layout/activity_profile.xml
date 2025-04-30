@@ -156,8 +156,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/nav_no_bg"
-        app:menu="@menu/menu_main"
+        app:menu="@menu/menu_profile"
         app:labelVisibilityMode="labeled"
         app:itemTextColor="@color/white"
-        />
+        app:itemIconTint="@color/nav_icon_color"
+        app:itemBackground="@drawable/nav_item_background" />
+
 </RelativeLayout>
