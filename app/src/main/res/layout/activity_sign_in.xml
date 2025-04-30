@@ -2,22 +2,23 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
-    <!-- android:background="@drawable/gradient_background" -->
+    android:fillViewport="true"
+    android:background="@drawable/gradient_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
         android:gravity="center_horizontal">
 
         <!-- Logo e título -->
         <ImageView
             android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_height="60dp"
             android:src="@drawable/sw_logo"
-            android:layout_marginTop="32dp" />
+            android:layout_marginTop="32dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,8 +27,7 @@
             android:textColor="#000000"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginTop="12dp"/>
 
         <!-- Caixa branca arredondada -->
 
@@ -93,30 +93,28 @@
                 android:text="New to WiseShopping? Sign Up" />
         </LinearLayout>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign In with Google"
-            android:drawableStart="@drawable/ic_google"
-            android:layout_marginTop="16dp" />
+           <Button
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Sign In with Google"
+               android:drawableStart="@drawable/ic_google"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign In with Facebook"
-            android:drawableStart="@drawable/ic_facebook"
-            android:backgroundTint="#1877F2"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="8dp" />
+           <Button
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Sign In with Facebook"
+               android:drawableStart="@drawable/ic_facebook"
+               android:backgroundTint="#1877F2"
+               android:textColor="#FFFFFF" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign In with Apple"
-            android:drawableStart="@drawable/ic_apple"
-            android:backgroundTint="#000000"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="32dp" />
+           <Button
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Sign In with Apple"
+               android:drawableStart="@drawable/ic_apple"
+               android:backgroundTint="#000000"
+               android:textColor="#FFFFFF"
+               android:layout_marginBottom="32dp"/>
+
     </LinearLayout>
 </ScrollView>

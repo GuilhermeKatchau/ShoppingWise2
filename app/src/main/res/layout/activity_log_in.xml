@@ -2,15 +2,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
-    <!-- android:background="@drawable/gradient_background" -->
-
+    android:fillViewport="true"
+    android:background="@drawable/gradient_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
         android:gravity="center_horizontal">
 
         <!-- Logo e nome da app -->
