@@ -1,5 +1,6 @@
 package com.example.shoppingwise2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import androidx.camera.view.PreviewView;
 import java.util.concurrent.ExecutionException;
 
 public class ScannerActivity extends AppCompatActivity {
+    private boolean alreadyScanned = false;
 
     private PreviewView previewView;  // Alterado de SurfaceView para PreviewView
     private BarcodeScanner barcodeScanner;
@@ -88,6 +90,12 @@ public class ScannerActivity extends AppCompatActivity {
                         Log.d("ScannerActivity", "Código detectado: " + value);
                         // Exibe o valor do código de barras
                         Toast.makeText(this, "Código: " + value, Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(ScannerActivity.this, ShowPrice.class);
+                        intent.putExtra("barcode", value);
+                        startActivity(intent);
+                        finish(); // encerra o ScannerActivity
+                        break;
                     }
                 })
                 .addOnFailureListener(e -> Log.e("ScannerActivity", "Erro ao escanear", e));
