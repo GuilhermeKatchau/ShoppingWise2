@@ -9,6 +9,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class ShowPrice extends AppCompatActivity {
 
     private TextView priceTextView;
@@ -26,21 +33,56 @@ public class ShowPrice extends AppCompatActivity {
             return insets;
         });
 
-        // Referência ao TextView que mostra o resultado
         priceTextView = findViewById(R.id.priceTextView);
 
-        // Obtém o código de barras passado pela ScannerActivity
+        // Recebe o código de barras da atividade anterior
         String barcode = getIntent().getStringExtra("barcode");
 
         if (barcode != null && !barcode.isEmpty()) {
-            // Mostra o código escaneado (podes mudar para mostrar o nome/preço do produto mais tarde)
-            priceTextView.setText("Código escaneado: " + barcode);
-
-            // Futuro: chamar API aqui com o código
-            // fetchProductInfo(barcode);
+            priceTextView.setText("A procurar: " + barcode);
+            fetchProductInfo(barcode);
         } else {
             priceTextView.setText("Erro: código de barras não recebido.");
         }
-        //Cenas da API
+    }
+
+    private void fetchProductInfo(String barcode) {
+        new Thread(() -> {
+            try {
+                String apiKey = "A_TUA_API_KEY"; // <- SUBSTITUI AQUI
+                String url = "https://serpapi.com/search.json?q=" + barcode + "&engine=google_shopping&api_key=" + apiKey;
+
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+
+                Response response = client.newCall(request).execute();
+
+                if (response.isSuccessful() && response.body() != null) {
+                    String responseBody = response.body().string();
+
+                    JSONObject json = new JSONObject(responseBody);
+                    JSONArray products = json.optJSONArray("shopping_results");
+
+                    if (products != null && products.length() > 0) {
+                        JSONObject firstProduct = products.getJSONObject(0);
+                        String title = firstProduct.optString("title", "Sem título");
+                        String price = firstProduct.optString("price", "Preço desconhecido");
+
+                        runOnUiThread(() -> priceTextView.setText("Produto: " + title + "\nPreço: " + price));
+                    } else {
+                        runOnUiThread(() -> priceTextView.setText("Produto não encontrado."));
+                    }
+                } else {
+                    runOnUiThread(() -> priceTextView.setText("Erro na resposta da API."));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> priceTextView.setText("Erro ao chamar a API: " + e.getMessage()));
+            }
+        }).start();
     }
 }

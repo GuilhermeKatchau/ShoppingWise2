@@ -55,6 +55,8 @@ dependencies {
     implementation ("com.google.mlkit:barcode-scanning:17.2.0")
     implementation ("com.google.android.gms:play-services-mlkit-barcode-scanning:18.2.0")
     implementation("com.google.mlkit:barcode-scanning:17.0.2")
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+
 
 
 }
