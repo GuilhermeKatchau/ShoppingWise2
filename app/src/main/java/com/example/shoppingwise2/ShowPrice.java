@@ -46,10 +46,12 @@ public class ShowPrice extends AppCompatActivity {
         }
     }
 
+
+
     private void fetchProductInfo(String barcode) {
         new Thread(() -> {
             try {
-                String apiKey = "A_TUA_API_KEY"; // <- SUBSTITUI AQUI
+                String apiKey = "e58249472ff73d22735b840bfe1c1a2d7e94bec9dcfbda5baaa6bad4673eefd8"; // <- SUBSTITUI AQUI
                 String url = "https://serpapi.com/search.json?q=" + barcode + "&engine=google_shopping&api_key=" + apiKey;
 
                 OkHttpClient client = new OkHttpClient();
