@@ -71,9 +71,9 @@ public class ShowPrice extends AppCompatActivity {
                     if (products != null && products.length() > 0) {
                         JSONObject firstProduct = products.getJSONObject(0);
                         String title = firstProduct.optString("title", "Sem título");
-                        String price = firstProduct.optString("price", "Preço desconhecido");
+                        String preco = firstProduct.optString("price", "Preço desconhecido");
 
-                        runOnUiThread(() -> priceTextView.setText("Produto: " + title + "\nPreço: " + price));
+                        runOnUiThread(() -> priceTextView.setText("Produto: " + title + "\nPreço: " + preco));
                     } else {
                         runOnUiThread(() -> priceTextView.setText("Produto não encontrado."));
                     }
