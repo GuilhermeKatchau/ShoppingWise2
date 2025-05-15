@@ -10,28 +10,62 @@
     android:backgroundTint="#FFFFFF">
 
     <LinearLayout
+        android:id="@+id/item_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/txtLoja"
-            android:layout_width="wrap_content"
+        <!-- Linha com logo e informações -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Loja: SuperMercado XYZ"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="#333333"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/txtPreco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Preço: 3,99€"
-            android:textSize="14sp"
-            android:textColor="#666666"
-            android:layout_marginTop="4dp" />
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imgLogoEmpresa"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="Logo da Empresa" />
+            <!--android:src="@drawable/ic_empresa_placeholder" -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtLoja"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loja: SuperMercado XYZ"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="#333333" />
+
+                <TextView
+                    android:id="@+id/txtPreco"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preço: 3,99€"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Imagem do produto (inicialmente oculta) -->
+        <ImageView
+            android:id="@+id/imgProduto"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:contentDescription="Imagem do Produto" />
+        <!--android:src="@drawable/ic_produto_placeholder" -->
+</LinearLayout>
 
 </androidx.cardview.widget.CardView>
