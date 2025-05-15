@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.mlkit.vision.barcode.BarcodeScanner;
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
@@ -38,7 +39,11 @@ public class ScannerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
 
         previewView = findViewById(R.id.previewView);
-        barcodeScanner = BarcodeScanning.getClient();
+        BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
+                .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+                .build();
+        barcodeScanner = BarcodeScanning.getClient(options);
+
 
         // Verifica a permissão da câmara
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
