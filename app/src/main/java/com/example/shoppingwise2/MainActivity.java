@@ -11,16 +11,18 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST_CODE = 100;
     private Button scanButton;
-    boolean isAuthenticated;
+   // boolean isAuthenticated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        scanButton = findViewById(R.id.btn_comecar);
+        /*
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         isAuthenticated = prefs.getBoolean("isLoggedIn", false);
-        scanButton = findViewById(R.id.btn_comecar);
+
 
         if (!isAuthenticated) {
             if (userJaRegistrado()) {
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SignInActivity.class));
             }
         }
-
+        */
         scanButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
             startActivity(intent);
@@ -37,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public boolean userJaRegistrado() {
+   /* public boolean userJaRegistrado() {
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
         return prefs.getBoolean("ja_registrado", false);
-    }
+    } */
 }
