@@ -36,10 +36,10 @@ private List<Pesquisa> historicoList;
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Pesquisa item = historicoList.get(position);
-        holder.txtData.setText(item.getData());
-        holder.txtProduto.setText(item.getProduto());
-        holder.txtPreco.setText(item.getComparacao());
+       // Pesquisa item = historicoList.get(position);
+        //holder.txtData.setText(item.getData());
+        //holder.txtProduto.setText(item.getProduto());
+        //holder.txtPreco.setText(item.getComparacao());
     }
 
     @Override
