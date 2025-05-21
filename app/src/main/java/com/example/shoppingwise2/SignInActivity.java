@@ -1,8 +1,10 @@
 package com.example.shoppingwise2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +15,9 @@ import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private EditText editNome, editEmail, editPnum;
+    private EditText editNome, editPasswd, editEmail, editPnum;
     private Button btnSignIn;
+    private TextView btnLogin;
     private SupabaseApi api;
 
     @Override
@@ -23,18 +26,26 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         editNome = findViewById(R.id.username);
+        editPasswd = findViewById(R.id.password);
         editEmail = findViewById(R.id.email);
         editPnum = findViewById(R.id.phoneNumber);
         btnSignIn = findViewById(R.id.SignInButton);
+        btnLogin = findViewById(R.id.notNewButton);
 
         api = RetrofitClient.getInstance().create(SupabaseApi.class);
 
+        btnLogin.setOnClickListener(v -> {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        });
+
         btnSignIn.setOnClickListener(v -> {
             String nome = editNome.getText().toString().trim();
+            String password = editPasswd.getText().toString().trim();
             String email = editEmail.getText().toString().trim();
             int pnum = Integer.parseInt(editPnum.getText().toString().trim());
 
-            Utilizador utilizador = new Utilizador(nome, email, pnum);
+            Utilizador utilizador = new Utilizador(nome, password, email, pnum);
 
             Call<Void> call = api.createUser(utilizador);
             call.enqueue(new Callback<Void>() {

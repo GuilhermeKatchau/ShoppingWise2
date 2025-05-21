@@ -50,6 +50,7 @@
             android:layout_marginBottom="16dp" />
 
         <EditText
+            android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
@@ -57,6 +58,7 @@
             android:layout_marginBottom="12dp" />
 
         <EditText
+            android:id="@+id/loginPasswd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -64,6 +66,7 @@
             android:layout_marginBottom="20dp" />
 
         <Button
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Login"

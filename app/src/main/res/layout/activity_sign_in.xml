@@ -91,11 +91,12 @@
                 android:textColor="#FFFFFF" />
 
             <TextView
+                android:id="@+id/notNewButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:text="New to WiseShopping? Sign Up" />
+                android:text="Do you already have an account? Log in" />
         </LinearLayout>
 
            <Button
