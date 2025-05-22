@@ -50,7 +50,7 @@ import java.util.ArrayList;
 
             private void fetchPricesFromApi(String barcode) {
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://your-supabase-url.supabase.co/rest/v1/")
+                        .baseUrl("postgresql://postgres:WiseShopping1234;@db.fjsjbxmilqxnyvnwzfbv.supabase.co:5432/postgres")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
