@@ -5,25 +5,18 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/txtTitle"
+        android:id="@+id/txtLoja"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Título do Produto"
+        android:text="Loja"
         android:textStyle="bold"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/txtPrice"
+        android:id="@+id/txtPreco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Preço"
         android:textSize="14sp"
         android:textColor="#666666" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPrices"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:clipToPadding="false"
-        android:paddingBottom="16dp" />
 </LinearLayout>

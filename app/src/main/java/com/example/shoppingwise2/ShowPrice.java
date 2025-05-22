@@ -1,90 +1,89 @@
 package com.example.shoppingwise2;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.TextView;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import com.example.shoppingwise2.DatabaseHelper;
+import com.example.shoppingwise2.Preco;
+import com.example.shoppingwise2.PriceAdapter;
+import com.example.shoppingwise2.Produto;
+import com.example.shoppingwise2.R;
+import com.example.shoppingwise2.SupabaseApi;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.ArrayList;
+        import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+        import retrofit2.Call;
+        import retrofit2.Callback;
+        import retrofit2.Response;
+        import retrofit2.Retrofit;
+        import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ShowPrice extends AppCompatActivity {
+        public class ShowPrice extends AppCompatActivity {
 
-    private TextView priceTextView;
+            private RecyclerView recyclerView;
+            private PriceAdapter adapter;
+            private List<Produto> productList = new ArrayList<>();
+            private DatabaseHelper databaseHelper;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_show_price);
+            @SuppressLint("MissingInflatedId")
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_show_price);
 
-        // Lida com insets (barras do sistema)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+                recyclerView = findViewById(R.id.recyclerViewPrices);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                adapter = new PriceAdapter(productList);
+                recyclerView.setAdapter(adapter);
 
-        priceTextView = findViewById(R.id.priceTextView);
+                databaseHelper = new DatabaseHelper(this);
 
-        // Recebe o código de barras da atividade anterior
-        String barcode = getIntent().getStringExtra("barcode");
+                String barcode = getIntent().getStringExtra("barcode");
+                if (barcode != null && !barcode.isEmpty()) {
+                    fetchPricesFromApi(barcode);
+                }
+            }
 
-        if (barcode != null && !barcode.isEmpty()) {
-            priceTextView.setText("A procurar: " + barcode);
-            fetchProductInfo(barcode);
-        } else {
-            priceTextView.setText("Erro: código de barras não recebido.");
-        }
-    }
-
-
-
-    private void fetchProductInfo(String barcode) {
-        new Thread(() -> {
-            try {
-                String apiKey = "e58249472ff73d22735b840bfe1c1a2d7e94bec9dcfbda5baaa6bad4673eefd8"; // <- SUBSTITUI AQUI
-                String url = "https://serpapi.com/search.json?q=" + barcode + "&engine=google_shopping&api_key=" + apiKey;
-
-                OkHttpClient client = new OkHttpClient();
-
-                Request request = new Request.Builder()
-                        .url(url)
+            private void fetchPricesFromApi(String barcode) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("https://your-supabase-url.supabase.co/rest/v1/")
+                        .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
-                Response response = client.newCall(request).execute();
+                SupabaseApi api = retrofit.create(SupabaseApi.class);
+                Call<List<Preco>> call = api.getPrecos(barcode);
 
-                if (response.isSuccessful() && response.body() != null) {
-                    String responseBody = response.body().string();
+                call.enqueue(new Callback<List<Preco>>() {
+                    @Override
+                    public void onResponse(Call<List<Preco>> call, Response<List<Preco>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            for (Preco preco : response.body()) {
+                                Produto produto = new Produto(
+                                        0, // ID fictício
+                                        null, // Nome do produto (não fornecido pela API)
+                                        barcode,
+                                        preco.getURL_Produto(),
+                                        null, // Lista de preços
+                                        null, // Lista de avaliações
+                                        preco.getLoja(),
+                                        String.valueOf(preco.getPreco())
+                                );
+                                productList.add(produto);
 
-                    JSONObject json = new JSONObject(responseBody);
-                    JSONArray products = json.optJSONArray("shopping_results");
-
-                    if (products != null && products.length() > 0) {
-                        JSONObject firstProduct = products.getJSONObject(0);
-                        String title = firstProduct.optString("title", "Sem título");
-                        String preco = firstProduct.optString("price", "Preço desconhecido");
-
-                        runOnUiThread(() -> priceTextView.setText("Produto: " + title + "\nPreço: " + preco));
-                    } else {
-                        runOnUiThread(() -> priceTextView.setText("Produto não encontrado."));
+                                databaseHelper.insertProduct(produto);
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
                     }
-                } else {
-                    runOnUiThread(() -> priceTextView.setText("Erro na resposta da API."));
-                }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-                runOnUiThread(() -> priceTextView.setText("Erro ao chamar a API: " + e.getMessage()));
+                    @Override
+                    public void onFailure(Call<List<Preco>> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
             }
-        }).start();
-    }
-}
+        }

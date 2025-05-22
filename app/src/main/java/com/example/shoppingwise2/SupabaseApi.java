@@ -30,4 +30,6 @@ public interface SupabaseApi {
             @Query(value = "email", encoded = true) String email,
             @Query(value = "passwd", encoded = true) String passwd
     );
+    @GET("precos")
+    Call<List<Preco>> getPrecos(@Query("barcode") String barcode);
 }

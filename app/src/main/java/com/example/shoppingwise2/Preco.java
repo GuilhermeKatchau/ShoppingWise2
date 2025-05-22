@@ -21,7 +21,7 @@ public class Preco {
         return loja;
     }
 
-    public float getValor() {
+    public float getPreco() {
         return valor;
     }
 
