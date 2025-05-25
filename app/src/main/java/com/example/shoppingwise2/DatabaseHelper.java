@@ -9,7 +9,7 @@ import com.example.shoppingwise2.Produto;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "produtos   .db";
+    private static final String DATABASE_NAME = "produtos.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_PRODUCTS = "products";
     private static final String COLUMN_NAME = "nome";

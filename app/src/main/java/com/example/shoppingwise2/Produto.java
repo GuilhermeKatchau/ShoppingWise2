@@ -1,32 +1,43 @@
 package com.example.shoppingwise2;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.List;
 public class Produto {
+    @SerializedName("id_produto")
+    private Integer id_produto;
 
-    private int id;
+    @SerializedName("nome")
     private String nome;
+
+    @SerializedName("barcode")
     private String barcode;
-    private String URL_Imagem;
-    private List<Preco> listaPreco;
-    private List<Avaliacao> listaAvaliacao;
 
-    private String loja;
-    private String preco;
+    @SerializedName("url_imagem")
+    private String url_imagem;
 
-    public Produto(int id, String nome, String barcode, String URL_Imagem, List<Preco> listaPreco, List<Avaliacao> listaAvaliacao, String loja, String preco) {
-        this.id = id;
+    // Lista de preços por loja (1 produto → muitas lojas)
+    private List<PrecoLoja> precosLojas;
+
+    // Construtor para a API (sem ID)
+    public Produto(String nome, String barcode, String url_imagem) {
         this.nome = nome;
         this.barcode = barcode;
-        this.URL_Imagem = URL_Imagem;
-        this.listaPreco = listaPreco;
-        this.listaAvaliacao = listaAvaliacao;
-        this.loja = loja;
-        this.preco = preco;
+        this.url_imagem = url_imagem;
+        this.precosLojas = new ArrayList<>();
     }
 
-    public int getId() {
-        return id;
+    // Adiciona um preço/loja à lista
+    public void addPrecoLoja(String loja, String preco, String imagemLoja) {
+        precosLojas.add(new PrecoLoja(loja, preco, imagemLoja));
     }
+
+    public int getId_produto() {
+        return id_produto;
+    }
+
+
 
     public String getNome() {
         return nome;
@@ -36,23 +47,31 @@ public class Produto {
         return barcode;
     }
 
-    public List<Preco> getListaPreco() {
-        return listaPreco;
+    public String getUrl_imagem() {
+        return url_imagem;
     }
 
-    public String getURL_Imagem() {
-        return URL_Imagem;
+    public List<PrecoLoja> getPrecosLojas() {
+        return precosLojas;
     }
 
-    public List<Avaliacao> getListaAvaliacao() {
-        return listaAvaliacao;
+    public void setId_produto(int id_produto) {
+        this.id_produto = id_produto;
     }
 
-    public String getLoja() {
-        return loja;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getPreco() {
-        return preco;
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
+    public void setUrl_imagem(String url_imagem) {
+        this.url_imagem = url_imagem;
+    }
+
+    public void setPrecosLojas(List<PrecoLoja> precosLojas) {
+        this.precosLojas = precosLojas;
     }
 }

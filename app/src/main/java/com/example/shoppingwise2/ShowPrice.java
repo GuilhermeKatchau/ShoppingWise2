@@ -1,89 +1,245 @@
 package com.example.shoppingwise2;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.shoppingwise2.DatabaseHelper;
-import com.example.shoppingwise2.Preco;
-import com.example.shoppingwise2.PriceAdapter;
-import com.example.shoppingwise2.Produto;
-import com.example.shoppingwise2.R;
-import com.example.shoppingwise2.SupabaseApi;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-        import java.util.List;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-        import retrofit2.Call;
-        import retrofit2.Callback;
-        import retrofit2.Response;
-        import retrofit2.Retrofit;
-        import retrofit2.converter.gson.GsonConverterFactory;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-        public class ShowPrice extends AppCompatActivity {
 
-            private RecyclerView recyclerView;
-            private PriceAdapter adapter;
-            private List<Produto> productList = new ArrayList<>();
-            private DatabaseHelper databaseHelper;
+public class ShowPrice extends AppCompatActivity {
 
-            @SuppressLint("MissingInflatedId")
-            @Override
-            protected void onCreate(Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                setContentView(R.layout.activity_show_price);
+    private RecyclerView produtosRecyclerView;
+    private ComparisonAdapter adapter;
+    private SupabaseApi api;
 
-                recyclerView = findViewById(R.id.recyclerViewPrices);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                adapter = new PriceAdapter(productList);
-                recyclerView.setAdapter(adapter);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_show_price);
 
-                databaseHelper = new DatabaseHelper(this);
+        // Lida com insets (barras do sistema)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
-                String barcode = getIntent().getStringExtra("barcode");
-                if (barcode != null && !barcode.isEmpty()) {
-                    fetchPricesFromApi(barcode);
+        produtosRecyclerView = findViewById(R.id.priceTextView);
+        produtosRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ComparisonAdapter(new ArrayList<>(), this);
+        produtosRecyclerView.setAdapter(adapter);
+        api = RetrofitClient.getInstance().create(SupabaseApi.class);
+
+        // Recebe o código de barras da atividade anterior
+        String barcode = getIntent().getStringExtra("barcode");
+
+        if (barcode != null && !barcode.isEmpty()) {
+            fetchProductInfo(barcode);
+        } else {
+            Toast.makeText(ShowPrice.this, "Código de barras não recebido", Toast.LENGTH_LONG).show();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
+    private void fetchProductInfo(String barcode) {
+        ExecutorService executor = Executors.newSingleThreadExecutor(); // Usa thread pool
+        executor.execute(() -> {
+            try {
+                String apiKey = "e58249472ff73d22735b840bfe1c1a2d7e94bec9dcfbda5baaa6bad4673eefd8"; // <- SUBSTITUI AQUI
+                String url = "https://serpapi.com/search.json?q=" + barcode + "&engine=google_shopping&api_key=" + apiKey;
+
+                OkHttpClient client = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+
+                okhttp3.Response response = client.newCall(request).execute();
+
+                if (!response.isSuccessful() || response.body() == null) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Erro na API", Toast.LENGTH_LONG).show();
+                        finish();
+                    });
+                    return;
+                }
+
+                String responseBody = response.body().string();
+                JSONObject json = new JSONObject(responseBody);
+                JSONArray products = json.optJSONArray("shopping_results");
+
+                runOnUiThread(() -> {
+                    List<Produto> novosProdutos = processarProdutos(products, barcode);
+                    adapter.atualizarLista(novosProdutos);
+                });
+
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
+    private List<Produto> processarProdutos(JSONArray products, String barcode) {
+        List<Produto> resultado = new ArrayList<>();
+
+        if (products == null || products.length() == 0) {
+            return resultado;
+        }
+
+        try {
+            JSONObject primeiroItem = products.getJSONObject(0);
+            Produto produto = new Produto(
+                    primeiroItem.optString("title", "Produto desconhecido"),
+                    barcode,
+                    primeiroItem.optString("thumbnail", "")
+            );
+
+            // Processa todos os itens para preços por loja
+            for (int i = 0; i < products.length(); i++) {
+                try {
+                    JSONObject item = products.getJSONObject(i);
+                    produto.addPrecoLoja(
+                            item.optString("source", "Loja desconhecida"),
+                            item.optString("price", "Preço indisponível"),
+                            item.optString("thumbnail", "")
+                    );
+                } catch (JSONException e) {
+                    Log.e("API", "Erro ao processar loja " + i, e);
+                    // Continua para a próxima loja
                 }
             }
 
-            private void fetchPricesFromApi(String barcode) {
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("postgresql://postgres:WiseShopping1234;@db.fjsjbxmilqxnyvnwzfbv.supabase.co:5432/postgres")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+            resultado.add(produto);
 
-                SupabaseApi api = retrofit.create(SupabaseApi.class);
-                Call<List<Preco>> call = api.getPrecos(barcode);
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                for (Produto produtoAtual : resultado) {
 
-                call.enqueue(new Callback<List<Preco>>() {
-                    @Override
-                    public void onResponse(Call<List<Preco>> call, Response<List<Preco>> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            for (Preco preco : response.body()) {
-                                Produto produto = new Produto(
-                                        0, // ID fictício
-                                        null, // Nome do produto (não fornecido pela API)
-                                        barcode,
-                                        preco.getURL_Produto(),
-                                        null, // Lista de preços
-                                        null, // Lista de avaliações
-                                        preco.getLoja(),
-                                        String.valueOf(preco.getPreco())
-                                );
-                                productList.add(produto);
+                    // Envia o Produto via Retrofit de forma assíncrona
+                    api.createProduto(produtoAtual).enqueue(new Callback<Produto>() {
+                        @Override
+                        public void onResponse(Call<Produto> call, Response<Produto> response) {
+                            // LOG DETALHADO PARA DEBUG
+                            Log.d("Supabase", "=== RESPONSE DEBUG ===");
+                            Log.d("Supabase", "Response code: " + response.code());
+                            Log.d("Supabase", "Response message: " + response.message());
+                            Log.d("Supabase", "Is successful: " + response.isSuccessful());
+                            Log.d("Supabase", "Response headers: " + response.headers().toString());
 
-                                databaseHelper.insertProduct(produto);
+                            // Tentar ler o corpo raw da resposta
+                            try {
+                                if (response.raw().body() != null) {
+                                    // CUIDADO: isto só funciona uma vez, depois o stream fecha
+                                    okhttp3.ResponseBody rawBody = response.raw().peekBody(Long.MAX_VALUE);
+                                    String rawString = rawBody.string();
+                                    Log.d("Supabase", "Raw response body: " + rawString);
+                                }
+                            } catch (Exception e) {
+                                Log.e("Supabase", "Erro ao ler raw body: " + e.getMessage());
                             }
-                            adapter.notifyDataSetChanged();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<List<Preco>> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-            }
+                            if (response.isSuccessful()) {
+                                Log.d("Supabase", "Response body is null: " + (response.body() == null));
+
+                                if (response.body() != null) {
+                                    Produto produtoInserido = response.body();
+                                    Log.d("Supabase", "Produto deserializado: " + produtoInserido.getNome());
+                                    Log.d("Supabase", "ID do produto: " + produtoInserido.getId_produto());
+
+                                    if (produtoInserido.getId_produto() != 0) {
+                                        int idProduto = produtoInserido.getId_produto();
+                                        Log.d("Supabase", "Produto inserido com ID: " + idProduto);
+
+                                        // Agora envia todos os PrecoLoja com o ID recebido
+                                        for (PrecoLoja precoLoja : produtoAtual.getPrecosLojas()) {
+                                            precoLoja.setId_produto(idProduto);
+
+                                            api.createPrecoLoja(precoLoja).enqueue(new Callback<PrecoLoja>() {
+                                                @Override
+                                                public void onResponse(Call<PrecoLoja> precoCall, Response<PrecoLoja> precoResponse) {
+                                                    if (precoResponse.isSuccessful()) {
+                                                        Log.d("Supabase", "Preço/Loja inserido com sucesso.");
+                                                    } else {
+                                                        Log.e("Supabase", "Falha ao inserir preço: " + precoResponse.code());
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<PrecoLoja> precoCall, Throwable t) {
+                                                    Log.e("Supabase", "Falha ao enviar preço: " + t.getMessage(), t);
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        Log.e("Supabase", "ID do produto é null!");
+                                    }
+                                } else {
+                                    Log.e("Supabase", "Resposta bem-sucedida, mas corpo vazio");
+
+                                    // Tentar ler o error body também
+                                    try {
+                                        if (response.errorBody() != null) {
+                                            String errorString = response.errorBody().string();
+                                            Log.e("Supabase", "Error body: " + errorString);
+                                        }
+                                    } catch (Exception e) {
+                                        Log.e("Supabase", "Erro ao ler error body: " + e.getMessage());
+                                    }
+                                }
+                            } else {
+                                Log.e("Supabase", "Response não bem-sucedida: " + response.code());
+                                try {
+                                    if (response.errorBody() != null) {
+                                        String errorString = response.errorBody().string();
+                                        Log.e("Supabase", "Error body: " + errorString);
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("Supabase", "Erro ao ler error body: " + e.getMessage());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Produto> call, Throwable t) {
+                            Log.e("Supabase", "Falha ao criar produto: " + t.getMessage(), t);
+                        }
+                    });
+                }
+            });
+
+        } catch (JSONException e) {
+            Log.e("API", "Erro crítico ao processar produtos", e);
         }
+
+        return resultado;
+    }
+}

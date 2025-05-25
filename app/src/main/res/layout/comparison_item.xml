@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,62 +11,53 @@
     android:backgroundTint="#FFFFFF">
 
     <LinearLayout
-        android:id="@+id/item_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Linha com logo e informações -->
+        <!-- Cabeçalho (Produto) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imgLogoEmpresa"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="12dp"
-                android:contentDescription="Logo da Empresa" />
-            <!--android:src="@drawable/ic_empresa_placeholder" -->
+                android:id="@+id/imgProduto"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_profile_placeholder"
+                android:contentDescription="Imagem do produto"/>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginStart="12dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtLoja"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtNomeProduto"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Loja: SuperMercado XYZ"
                     android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textColor="#333333" />
+                    android:textSize="16sp"/>
 
                 <TextView
-                    android:id="@+id/txtPreco"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/txtCodigoBarras"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Preço: 3,99€"
-                    android:textSize="14sp"
-                    android:textColor="#666666"
-                    android:layout_marginTop="4dp" />
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Imagem do produto (inicialmente oculta) -->
-        <ImageView
-            android:id="@+id/imgProduto"
+        <LinearLayout
+            android:id="@+id/containerLojas"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="12dp"
-            android:scaleType="centerCrop"
-            android:visibility="gone"
-            android:contentDescription="Imagem do Produto" />
-        <!--android:src="@drawable/ic_produto_placeholder" -->
-</LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

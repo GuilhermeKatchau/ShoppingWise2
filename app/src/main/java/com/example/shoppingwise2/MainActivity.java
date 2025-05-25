@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         isAuthenticated = preferences.getBoolean("isLoggedIn", false);
 
-
+        /*
         if (!isAuthenticated) {
             if (userJaRegistrado()) {
                 startActivity(new Intent(this, LoginActivity.class));
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SignInActivity.class));
                 finish();
             }
-        }
+        }*/
 
         scanButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-   public boolean userJaRegistrado() {
+  /* public boolean userJaRegistrado() {
         SharedPreferences preferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         return preferences.getBoolean("ja_registrado", false);
-    }
+    } */
 }
