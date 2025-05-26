@@ -58,22 +58,23 @@ public class ShowPrice extends AppCompatActivity {
 
         // Recebe o código de barras da atividade anterior
         String barcode = getIntent().getStringExtra("barcode");
+        String produtoPesquisado = getIntent().getStringExtra("produto");
 
         if (barcode != null && !barcode.isEmpty()) {
             fetchProductInfo(barcode);
+        } else if (produtoPesquisado != null && !produtoPesquisado.isEmpty()) {
+            fetchProductInfo(produtoPesquisado);
         } else {
-            Toast.makeText(ShowPrice.this, "Código de barras não recebido", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Nenhum código de barras ou produto recebido", Toast.LENGTH_LONG).show();
             adapter.notifyDataSetChanged();
         }
     }
-
-
-    private void fetchProductInfo(String barcode) {
+    private void fetchProductInfo(String query) {
         ExecutorService executor = Executors.newSingleThreadExecutor(); // Usa thread pool
         executor.execute(() -> {
             try {
                 String apiKey = "e58249472ff73d22735b840bfe1c1a2d7e94bec9dcfbda5baaa6bad4673eefd8"; // <- SUBSTITUI AQUI
-                String url = "https://serpapi.com/search.json?q=" + barcode + "&engine=google_shopping&api_key=" + apiKey;
+                String url = "https://serpapi.com/search.json?q=" + query + "&engine=google_shopping&api_key=" + apiKey;
 
                 OkHttpClient client = new OkHttpClient();
 
@@ -96,7 +97,7 @@ public class ShowPrice extends AppCompatActivity {
                 JSONArray products = json.optJSONArray("shopping_results");
 
                 runOnUiThread(() -> {
-                    List<Produto> novosProdutos = processarProdutos(products, barcode);
+                    List<Produto> novosProdutos = processarProdutos(products, query);
                     adapter.atualizarLista(novosProdutos);
                 });
 
@@ -108,7 +109,7 @@ public class ShowPrice extends AppCompatActivity {
         });
     }
 
-    private List<Produto> processarProdutos(JSONArray products, String barcode) {
+    private List<Produto> processarProdutos(JSONArray products, String query) {
         List<Produto> resultado = new ArrayList<>();
 
         if (products == null || products.length() == 0) {
@@ -119,7 +120,7 @@ public class ShowPrice extends AppCompatActivity {
             JSONObject primeiroItem = products.getJSONObject(0);
             Produto produto = new Produto(
                     primeiroItem.optString("title", "Produto desconhecido"),
-                    barcode,
+                    query,
                     primeiroItem.optString("thumbnail", "")
             );
 
