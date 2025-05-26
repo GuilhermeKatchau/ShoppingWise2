@@ -1,14 +1,12 @@
 package com.example.shoppingwise2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,7 +56,7 @@ public class ShowPrice extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(ShowPrice.this, HistoricoSearch.class));
+                startActivity(new Intent(ShowPrice.this, Historia.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
                 startActivity(new Intent(ShowPrice.this, ProfileActivity.class));
@@ -174,9 +171,9 @@ public class ShowPrice extends AppCompatActivity {
                 for (Produto produtoAtual : resultado) {
 
                     // Envia o Produto via Retrofit de forma assíncrona
-                    api.createProduto(produtoAtual).enqueue(new Callback<Produto>() {
+                    api.createProduto(produtoAtual).enqueue(new Callback<List<Produto>>() {
                         @Override
-                        public void onResponse(Call<Produto> call, Response<Produto> response) {
+                        public void onResponse(Call<List<Produto>> call, Response<List<Produto>> response) {
                             // LOG DETALHADO PARA DEBUG
                             Log.d("Supabase", "=== RESPONSE DEBUG ===");
                             Log.d("Supabase", "Response code: " + response.code());
@@ -200,7 +197,7 @@ public class ShowPrice extends AppCompatActivity {
                                 Log.d("Supabase", "Response body is null: " + (response.body() == null));
 
                                 if (response.body() != null) {
-                                    Produto produtoInserido = response.body();
+                                    Produto produtoInserido = response.body().get(0);
                                     Log.d("Supabase", "Produto deserializado: " + produtoInserido.getNome());
                                     Log.d("Supabase", "ID do produto: " + produtoInserido.getId_produto());
 
@@ -228,6 +225,38 @@ public class ShowPrice extends AppCompatActivity {
                                                 }
                                             });
                                         }
+
+                                        SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                        int idUtilizador = preferences.getInt("id", -1);
+                                        Log.d("Historia", "ID do utilizador recuperado: " + idUtilizador);
+
+                                        if (idUtilizador != -1) {
+                                            Historia novaHistoria = new Historia(
+                                                    idUtilizador,
+                                                    idProduto,
+                                                    produtoInserido.getNome(),
+                                                    produtoInserido.getUrl_imagem()
+                                            );
+
+                                            api.createHistorico(novaHistoria).enqueue(new Callback<Void>() {
+                                                @Override
+                                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                                    if (response.isSuccessful()) {
+                                                        Log.d("Supabase", "Histórico inserido com sucesso!");
+                                                    } else {
+                                                        Log.e("Supabase", "Erro ao inserir no histórico: " + response.code());
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Void> call, Throwable t) {
+                                                    Log.e("Supabase", "Falha ao enviar histórico: " + t.getMessage(), t);
+                                                }
+                                            });
+                                        } else {
+                                            Log.e("Supabase", "ID do utilizador não encontrado.");
+                                        }
+
                                     } else {
                                         Log.e("Supabase", "ID do produto é null!");
                                     }
@@ -258,7 +287,7 @@ public class ShowPrice extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<Produto> call, Throwable t) {
+                        public void onFailure(Call<List<Produto>> call, Throwable t) {
                             Log.e("Supabase", "Falha ao criar produto: " + t.getMessage(), t);
                         }
                     });

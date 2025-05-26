@@ -47,7 +47,7 @@ public interface SupabaseApi {
             "Prefer: return=representation"
     })
     @POST("produto")
-    Call<Produto> createProduto(@Body Produto produto);
+    Call<List<Produto>> createProduto(@Body Produto produto);
 
     @Headers({
             "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqc2pieG1pbHF4bnl2bnd6ZmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMTY5MDEsImV4cCI6MjA2Mjg5MjkwMX0.1gtDdssG4A3mqRPhJh0bdFZNM_s-eWGEIZENMkM9GtQ",
@@ -57,4 +57,25 @@ public interface SupabaseApi {
     })
     @POST("precoloja")
     Call<PrecoLoja> createPrecoLoja(@Body PrecoLoja precoLoja);
+
+    @Headers({
+            "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqc2pieG1pbHF4bnl2bnd6ZmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMTY5MDEsImV4cCI6MjA2Mjg5MjkwMX0.1gtDdssG4A3mqRPhJh0bdFZNM_s-eWGEIZENMkM9GtQ",
+            "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqc2pieG1pbHF4bnl2bnd6ZmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMTY5MDEsImV4cCI6MjA2Mjg5MjkwMX0.1gtDdssG4A3mqRPhJh0bdFZNM_s-eWGEIZENMkM9GtQ",
+            "Content-Type: application/json",
+            "Prefer: return=minimal"
+    })
+    @POST("historia")
+    Call<Void> createHistorico(@Body Historia historia);
+
+    @Headers({
+            "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqc2pieG1pbHF4bnl2bnd6ZmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMTY5MDEsImV4cCI6MjA2Mjg5MjkwMX0.1gtDdssG4A3mqRPhJh0bdFZNM_s-eWGEIZENMkM9GtQ",
+            "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqc2pieG1pbHF4bnl2bnd6ZmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMTY5MDEsImV4cCI6MjA2Mjg5MjkwMX0.1gtDdssG4A3mqRPhJh0bdFZNM_s-eWGEIZENMkM9GtQ",
+            "Content-Type: application/json"
+    })
+    @GET("historia")
+    Call<List<Historia>> getHistoricoByUserId(@Query("id_utilizador") int idUtilizador,
+                                              @Query("order") String order);
 }
+
+
+

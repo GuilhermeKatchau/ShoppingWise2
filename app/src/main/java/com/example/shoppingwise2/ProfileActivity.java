@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(ProfileActivity.this, HistoricoSearch.class));
+                startActivity(new Intent(ProfileActivity.this, Historia.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
                 return true;
