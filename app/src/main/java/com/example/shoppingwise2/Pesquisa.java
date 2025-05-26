@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,6 +37,29 @@ public class Pesquisa extends AppCompatActivity{
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_history) {
+                startActivity(new Intent(Pesquisa.this, HistoricoSearch.class));
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(Pesquisa.this, ProfileActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_search) {
+             return true;
+            } else if (itemId == R.id.nav_scan) {
+                startActivity(new Intent(Pesquisa.this, ScannerActivity.class));
+                return true;
+            }
+            return false;
+        });
+
+
+
+        bottomNavigationView.setSelectedItemId(R.id.nav_search);
+
 
         searchEditText = findViewById(R.id.searchEditText);
         resultTextView = findViewById(R.id.resultTextView);

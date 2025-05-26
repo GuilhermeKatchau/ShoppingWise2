@@ -59,12 +59,13 @@ public class ShowPrice extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(ShowPrice.this, Pesquisa.class));
+                startActivity(new Intent(ShowPrice.this, HistoricoSearch.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
                 startActivity(new Intent(ShowPrice.this, ProfileActivity.class));
                 return true;
             } else if (itemId == R.id.nav_search) {
+                startActivity(new Intent(ShowPrice.this, Pesquisa.class));
                 return true;
             } else if (itemId == R.id.nav_scan) {
                 startActivity(new Intent(ShowPrice.this, ScannerActivity.class));
@@ -75,7 +76,7 @@ public class ShowPrice extends AppCompatActivity {
 
 
 
-        bottomNavigationView.setSelectedItemId(R.id.nav_search);
+        bottomNavigationView.setSelectedItemId(R.id.nav_preco);
 
         produtosRecyclerView = findViewById(R.id.priceTextView);
         produtosRecyclerView.setLayoutManager(new LinearLayoutManager(this));

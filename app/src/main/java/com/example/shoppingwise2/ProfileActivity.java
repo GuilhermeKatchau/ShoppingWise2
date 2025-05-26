@@ -1,5 +1,6 @@
 package com.example.shoppingwise2;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,25 +58,21 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setItemTextColor(getResources().getColorStateList(R.color.nav_icon_color));
 
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.nav_history) {
-                    // Adicione Intent para HistoryActivity quando tiver
-                    return true;
-                } else if (itemId == R.id.nav_profile) {
-                    return true;
-                } else if (itemId == R.id.nav_search) {
-                    // Adicione Intent para SearchActivity quando tiver
-                    return true;
-                } else if (itemId == R.id.nav_scan) {
-                    // Adicione Intent para ScanActivity quando tiver
-                    return true;
-                } else {
-                    return false;
-                }
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_history) {
+                startActivity(new Intent(ProfileActivity.this, HistoricoSearch.class));
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                startActivity(new Intent(ProfileActivity.this, Pesquisa.class));
+                return true;
+            } else if (itemId == R.id.nav_scan) {
+                startActivity(new Intent(ProfileActivity.this, ScannerActivity.class));
+                return true;
             }
+            return false;
         });
 
         bottomNavigationView.setSelectedItemId(R.id.nav_profile);
