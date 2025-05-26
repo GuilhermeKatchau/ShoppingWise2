@@ -54,7 +54,7 @@ public class ShowPrice extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bV);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setItemTextColor(getResources().getColorStateList(R.color.nav_icon_color));
 
