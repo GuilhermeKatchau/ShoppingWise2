@@ -58,30 +58,25 @@ public class ShowPrice extends AppCompatActivity {
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setItemTextColor(getResources().getColorStateList(R.color.nav_icon_color));
 
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.nav_history) {
-                    startActivity(new Intent(ShowPrice.this, HistoricoSearch.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                } else if (itemId == R.id.nav_profile) {
-                    startActivity(new Intent(ShowPrice.this, ProfileActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                } else if (itemId == R.id.nav_search) {
-                    // já estás aqui
-                    return true;
-                } else if (itemId == R.id.nav_scan) {
-                    startActivity(new Intent(ShowPrice.this, ScannerActivity.class));
-                    overridePendingTransition(0, 0);
-                    return true;
-                } else {
-                    return false;
-                }
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_history) {
+                startActivity(new Intent(ShowPrice.this, HistoricoSearch.class));
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(ShowPrice.this, ProfileActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                // já estás aqui
+                return true;
+            } else if (itemId == R.id.nav_scan) {
+                startActivity(new Intent(ShowPrice.this, ScannerActivity.class));
+                return true;
             }
+            return false;
         });
+
+
 
         bottomNavigationView.setSelectedItemId(R.id.nav_search);
 

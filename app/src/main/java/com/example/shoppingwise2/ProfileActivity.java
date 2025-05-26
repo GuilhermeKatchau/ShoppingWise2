@@ -25,8 +25,6 @@ public class ProfileActivity extends AppCompatActivity {
                     return true;
                 } else if (itemId == R.id.nav_profile) {
                     return true;
-                } else if (itemId == R.id.nav_home) {
-                    return true;
                 } else if (itemId == R.id.nav_search) {
                     return true;
                 } else if (itemId == R.id.nav_scan) {
