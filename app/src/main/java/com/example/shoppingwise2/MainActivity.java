@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         isAuthenticated = preferences.getBoolean("isLoggedIn", false);
 
         if (!isAuthenticated) {
-            if (!userJaRegistrado()) {
+            if (userJaRegistrado()) {
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             } else {
