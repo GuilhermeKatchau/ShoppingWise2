@@ -55,19 +55,16 @@ public class ShowPrice extends AppCompatActivity {
             return insets;
         });
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setItemIconTintList(null);
-        bottomNavigationView.setItemTextColor(getResources().getColorStateList(R.color.nav_icon_color));
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(ShowPrice.this, HistoricoSearch.class));
+                startActivity(new Intent(ShowPrice.this, Pesquisa.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
                 startActivity(new Intent(ShowPrice.this, ProfileActivity.class));
                 return true;
             } else if (itemId == R.id.nav_search) {
-                // já estás aqui
                 return true;
             } else if (itemId == R.id.nav_scan) {
                 startActivity(new Intent(ShowPrice.this, ScannerActivity.class));

@@ -35,6 +35,12 @@
         <activity
             android:name=".SignInActivity"
             android:exported="false"/>
+        <activity
+            android:name=".Pesquisa"
+            android:exported="false"/>
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
     </application>
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 </manifest>
