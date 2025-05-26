@@ -37,30 +37,94 @@ public class LoginActivity extends AppCompatActivity {
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
-            api.login("eq." + email,"eq." + password).enqueue(new Callback<List<Utilizador>>() {
-                @Override
-                public void onResponse(Call<List<Utilizador>> call, Response<List<Utilizador>> response) {
-                    if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-
-                        // Faz login automaticamente a partir de informação armazenada no telemovel
-                        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putBoolean("isLoggedIn", true);
-                        editor.apply();
-
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Credenciais inválidas", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<Utilizador>> call, Throwable t) {
-                    Log.e("LoginActivity", "Erro ao conectar", t);
-                    Toast.makeText(LoginActivity.this, "Erro de rede", Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (validateInput(email, password)) {
+                performLogin(email, password);
+            }
         });
     }
+
+    private boolean validateInput(String email, String password) {
+        if (email.isEmpty()) {
+            emailEditText.setError("Email é obrigatório");
+            emailEditText.requestFocus();
+            return false;
+        }
+
+        if (password.isEmpty()) {
+            passwordEditText.setError("Password é obrigatória");
+            passwordEditText.requestFocus();
+            return false;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.setError("Email inválido");
+            emailEditText.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void performLogin(String email, String password) {
+        Log.d("LoginActivity", "Tentando fazer login para: " + email);
+
+        // Desabilita o botão para evitar múltiplos cliques
+        loginButton.setEnabled(false);
+
+        Call<List<Utilizador>> call = api.login("eq." + email, "eq." + password);
+
+        call.enqueue(new Callback<List<Utilizador>>() {
+            @Override
+            public void onResponse(Call<List<Utilizador>> call, Response<List<Utilizador>> response) {
+                // Reabilita o botão
+                loginButton.setEnabled(true);
+
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Utilizador> utilizadores = response.body();
+                    Log.d("LoginActivity", "Resposta da API recebida. Número de utilizadores: " + utilizadores.size());
+
+                    if (!utilizadores.isEmpty()) {
+                        Utilizador user = utilizadores.get(0);
+                        Log.d("LoginActivity", "Login bem-sucedido para utilizador: " + user.getNome());
+
+                        // Guarda informações do utilizador e estado de login
+                        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+
+                        // Guarda o estado de login
+                        editor.putBoolean("isLoggedIn", true);
+
+                        // Guarda informações do utilizador para uso posterior
+                        editor.putInt("id", user.getId());
+                        editor.putString("nome", user.getNome());
+                        editor.putString("email", user.getEmail());
+
+                        editor.commit();
+
+                        // Navega para a MainActivity
+                        Log.d("LoginActivity", "ID salvo: " + user.getId());
+                        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                        Toast.makeText(LoginActivity.this, "Bem-vindo, " + user.getNome() + "!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.w("LoginActivity", "Nenhum utilizador encontrado com as credenciais fornecidas");
+                    }
+                } else {
+                    Log.e("LoginActivity", "Resposta não bem-sucedida. Código: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Utilizador>> call, Throwable t) {
+                // Reabilita o botão
+                loginButton.setEnabled(true);
+                loginButton.setText("Entrar");
+
+                Log.e("LoginActivity", "Erro ao conectar com a API", t);
+            }
+        });
+    }
+
 }

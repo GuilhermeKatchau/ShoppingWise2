@@ -31,6 +31,14 @@ public interface SupabaseApi {
             @Query(value = "passwd", encoded = true) String passwd
     );
 
+    @Headers({
+            "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqc2pieG1pbHF4bnl2bnd6ZmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMTY5MDEsImV4cCI6MjA2Mjg5MjkwMX0.1gtDdssG4A3mqRPhJh0bdFZNM_s-eWGEIZENMkM9GtQ",
+            "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqc2pieG1pbHF4bnl2bnd6ZmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMTY5MDEsImV4cCI6MjA2Mjg5MjkwMX0.1gtDdssG4A3mqRPhJh0bdFZNM_s-eWGEIZENMkM9GtQ",
+            "Content-Type: application/json",
+            "Prefer: return=representation"
+    })
+    @GET("utilizador")
+    Call<List<Utilizador>> getUserById(@Query("id") String id);
 
     @Headers({
             "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqc2pieG1pbHF4bnl2bnd6ZmJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMTY5MDEsImV4cCI6MjA2Mjg5MjkwMX0.1gtDdssG4A3mqRPhJh0bdFZNM_s-eWGEIZENMkM9GtQ",

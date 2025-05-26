@@ -1,6 +1,8 @@
 package com.example.shoppingwise2;
 
 public class Utilizador {
+
+    private int id;
     private String nome;
     private String passwd;
     private String email;
@@ -11,6 +13,10 @@ public class Utilizador {
         this.passwd = passwd;
         this.email = email;
         this.pnum = pnum;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNome() {
