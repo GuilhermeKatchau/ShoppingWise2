@@ -8,6 +8,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -34,8 +37,32 @@ public class HistoricoSearch extends AppCompatActivity {
         adapter = new HistoricoAdapter(new ArrayList<>(), this);
         recyclerViewHistorico.setAdapter(adapter);
 
+        setupBottomNavigation();
+
         // Carregar histórico do usuário
         carregarHistorico();
+    }
+
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_preco) {
+                startActivity(new Intent(HistoricoSearch.this, ShowPrice.class));
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(HistoricoSearch.this, ProfileActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                startActivity(new Intent(HistoricoSearch.this, Pesquisa.class));
+                return true;
+            } else if (itemId == R.id.nav_scan) {
+                startActivity(new Intent(HistoricoSearch.this, ScannerActivity.class));
+                return true;
+            }
+            return false;
+        });
+            bottomNavigationView.setSelectedItemId(R.id.nav_history);
     }
 
     private void carregarHistorico() {
@@ -50,7 +77,7 @@ public class HistoricoSearch extends AppCompatActivity {
             return;
         }
 
-        api.getHistoricoByUserId(idUtilizador, "data.desc").enqueue(new Callback<List<Historia>>() {
+        api.getHistoricoByUserId("eq." + idUtilizador, "data.desc").enqueue(new Callback<List<Historia>>() {
             @Override
             public void onResponse(Call<List<Historia>> call, Response<List<Historia>> response) {
                 Log.d("HistoricoSearch", "Response code: " + response.code());

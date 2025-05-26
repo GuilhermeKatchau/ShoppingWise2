@@ -73,7 +73,7 @@ public interface SupabaseApi {
             "Content-Type: application/json"
     })
     @GET("historia")
-    Call<List<Historia>> getHistoricoByUserId(@Query("id_utilizador") int idUtilizador,
+    Call<List<Historia>> getHistoricoByUserId(@Query("id_utilizador") String idUtilizador,
                                               @Query("order") String order);
 }
 

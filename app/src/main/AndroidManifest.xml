@@ -38,8 +38,11 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false"/>
-<activity
+        <activity
             android:name=".Pesquisa"
+            android:exported="false"/>
+        <activity
+            android:name=".HistoricoSearch"
             android:exported="false"/>
     </application>
     <uses-feature android:name="android.hardware.camera" android:required="false" />

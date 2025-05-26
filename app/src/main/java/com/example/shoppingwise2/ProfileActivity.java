@@ -55,13 +55,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void setupBottomNavigation() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setItemIconTintList(null);
-        bottomNavigationView.setItemTextColor(getResources().getColorStateList(R.color.nav_icon_color));
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(ProfileActivity.this, Historia.class));
+                startActivity(new Intent(ProfileActivity.this, HistoricoSearch.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
                 return true;

@@ -42,7 +42,7 @@ public class Pesquisa extends AppCompatActivity{
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(Pesquisa.this, Historia.class));
+                startActivity(new Intent(Pesquisa.this, HistoricoSearch.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
                 startActivity(new Intent(Pesquisa.this, ProfileActivity.class));

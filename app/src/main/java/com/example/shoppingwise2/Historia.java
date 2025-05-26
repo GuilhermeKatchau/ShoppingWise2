@@ -19,7 +19,7 @@ public class Historia {
     @SerializedName("imagem")
     private String imagem;
 
-    @SerializedName("data")  // Opcional, pois o Supabase preenche automaticamente
+    @SerializedName("data")
     private String data;
 
     // Construtor completo

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".HistoricoSearch">
+
+
 
     <TextView
         android:id="@+id/tituloHistorico"
@@ -16,22 +18,25 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistorico"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"/>
+        android:layout_below="@id/tituloHistorico"
+        android:layout_above="@id/bottomNavigationView"
+        android:layout_marginTop="8dp" />
 
-    <TextView
-        android:id="@+id/txtPreco"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Comparado entre: Pingo Doce, Continente, Auchan"
-        android:textColor="#666666"
-        android:textSize="14sp"
-        android:layout_margin="8dp"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:background="#F5EDF7"
+        app:menu="@menu/menu_main"
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="@color/nav_icon_color"
+        app:itemTextColor="@color/nav_icon_color" />
+</RelativeLayout>
