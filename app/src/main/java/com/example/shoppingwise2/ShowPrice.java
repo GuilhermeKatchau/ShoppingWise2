@@ -1,11 +1,14 @@
 package com.example.shoppingwise2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -13,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -36,6 +40,7 @@ public class ShowPrice extends AppCompatActivity {
     private RecyclerView produtosRecyclerView;
     private ComparisonAdapter adapter;
     private SupabaseApi api;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,28 @@ public class ShowPrice extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_history) {
+                startActivity(new Intent(ShowPrice.this, Pesquisa.class));
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(ShowPrice.this, ProfileActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                return true;
+            } else if (itemId == R.id.nav_scan) {
+                startActivity(new Intent(ShowPrice.this, ScannerActivity.class));
+                return true;
+            }
+            return false;
+        });
+
+
+
+        bottomNavigationView.setSelectedItemId(R.id.nav_search);
 
         produtosRecyclerView = findViewById(R.id.priceTextView);
         produtosRecyclerView.setLayoutManager(new LinearLayoutManager(this));

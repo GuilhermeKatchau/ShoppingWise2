@@ -66,9 +66,12 @@ public class ProfileActivity extends AppCompatActivity {
                     return true;
                 } else if (itemId == R.id.nav_profile) {
                     return true;
+<<<<<<< HEAD
                 } else if (itemId == R.id.nav_home) {
                     // Adicione Intent para MainActivity quando tiver
                     return true;
+=======
+>>>>>>> refs/remotes/origin/master
                 } else if (itemId == R.id.nav_search) {
                     // Adicione Intent para SearchActivity quando tiver
                     return true;
