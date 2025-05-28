@@ -114,7 +114,7 @@ public class ScannerActivity extends AppCompatActivity {
                                         Log.d("ScannerActivity", "Código detectado: " + value);
                                         Toast.makeText(this, "Código: " + value, Toast.LENGTH_SHORT).show();
 
-                                        Intent intent = new Intent(ScannerActivity.this, ShowPrice.class);
+                                        Intent intent = new Intent(ScannerActivity.this, ShowPriceActivity.class);
                                         intent.putExtra("barcode", value);
                                         startActivity(intent);
                                         break;

@@ -81,17 +81,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.isSuccessful() && response.body() != null) {
                     List<Utilizador> utilizadores = response.body();
-                    Log.d("LoginActivity", "Resposta da API recebida. Número de utilizadores: " + utilizadores.size());
 
                     if (!utilizadores.isEmpty()) {
                         Utilizador user = utilizadores.get(0);
-                        Log.d("LoginActivity", "Login bem-sucedido para utilizador: " + user.getNome());
 
-                        // Guarda informações do utilizador e estado de login
                         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
-
-                        // Guarda o estado de login
                         editor.putBoolean("isLoggedIn", true);
 
                         // Guarda informações do utilizador para uso posterior
@@ -101,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         editor.commit();
 
-                        // Navega para a MainActivity
                         Log.d("LoginActivity", "ID salvo: " + user.getId());
                         Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                         startActivity(intent);

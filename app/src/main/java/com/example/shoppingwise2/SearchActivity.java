@@ -13,15 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-
-public class Pesquisa extends AppCompatActivity{
+public class SearchActivity extends AppCompatActivity{
     private EditText searchEditText;
     private TextView resultTextView;
     private Button searchButton;
@@ -42,15 +35,15 @@ public class Pesquisa extends AppCompatActivity{
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(Pesquisa.this, HistoricoSearch.class));
+                startActivity(new Intent(SearchActivity.this, HistoryActivity.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(Pesquisa.this, ProfileActivity.class));
+                startActivity(new Intent(SearchActivity.this, ProfileActivity.class));
                 return true;
             } else if (itemId == R.id.nav_search) {
              return true;
             } else if (itemId == R.id.nav_scan) {
-                startActivity(new Intent(Pesquisa.this, ScannerActivity.class));
+                startActivity(new Intent(SearchActivity.this, ScannerActivity.class));
                 return true;
             }
             return false;
@@ -69,7 +62,7 @@ public class Pesquisa extends AppCompatActivity{
             String query = searchEditText.getText().toString().trim();
             if (!query.isEmpty()) {
                 resultTextView.setText("A procurar: " + query);
-                Intent intent = new Intent(Pesquisa.this, ShowPrice.class);
+                Intent intent = new Intent(SearchActivity.this, ShowPriceActivity.class);
                 intent.putExtra("produto", query);
                 startActivity(intent);
             } else {

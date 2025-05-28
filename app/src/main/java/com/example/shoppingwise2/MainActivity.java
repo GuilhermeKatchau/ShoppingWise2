@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MAIN", "MainActivity iniciou");
         setContentView(R.layout.activity_main);
 
         beginButton = findViewById(R.id.btn_comecar);
@@ -44,6 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
    public boolean userJaRegistrado() {
         SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-        return preferences.getBoolean("ja_registrado", false);
+        return preferences.getBoolean("SignedIn", false);
     }
 }

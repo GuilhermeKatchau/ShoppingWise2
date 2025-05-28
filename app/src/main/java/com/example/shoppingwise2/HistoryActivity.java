@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HistoricoSearch extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewHistorico;
     private HistoricoAdapter adapter;
@@ -48,16 +48,16 @@ public class HistoricoSearch extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_preco) {
-                startActivity(new Intent(HistoricoSearch.this, ShowPrice.class));
+                startActivity(new Intent(HistoryActivity.this, ShowPriceActivity.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(HistoricoSearch.this, ProfileActivity.class));
+                startActivity(new Intent(HistoryActivity.this, ProfileActivity.class));
                 return true;
             } else if (itemId == R.id.nav_search) {
-                startActivity(new Intent(HistoricoSearch.this, Pesquisa.class));
+                startActivity(new Intent(HistoryActivity.this, SearchActivity.class));
                 return true;
             } else if (itemId == R.id.nav_scan) {
-                startActivity(new Intent(HistoricoSearch.this, ScannerActivity.class));
+                startActivity(new Intent(HistoryActivity.this, ScannerActivity.class));
                 return true;
             }
             return false;
@@ -66,51 +66,50 @@ public class HistoricoSearch extends AppCompatActivity {
     }
 
     private void carregarHistorico() {
-        // Obter ID do usuário das SharedPreferences
+        // Obtem ID do utilizador das SharedPreferences
         SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         int idUtilizador = preferences.getInt("id", -1);
 
-        Log.d("HistoricoSearch", "ID do utilizador: " + idUtilizador);
+        Log.d("HistoryActivity", "ID do utilizador: " + idUtilizador);
 
         if (idUtilizador == -1) {
-            Toast.makeText(this, "Erro: Usuário não identificado", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Erro: Utilizador não identificado", Toast.LENGTH_LONG).show();
             return;
         }
 
         api.getHistoricoByUserId("eq." + idUtilizador, "data.desc").enqueue(new Callback<List<Historia>>() {
             @Override
             public void onResponse(Call<List<Historia>> call, Response<List<Historia>> response) {
-                Log.d("HistoricoSearch", "Response code: " + response.code());
+                Log.d("HistoryActivity", "Response code: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
                     List<Historia> historico = response.body();
-                    Log.d("HistoricoSearch", "Histórico carregado: " + historico.size() + " itens");
 
                     if (historico.isEmpty()) {
-                        Toast.makeText(HistoricoSearch.this, "Nenhum histórico encontrado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HistoryActivity.this, "Nenhum histórico encontrado", Toast.LENGTH_SHORT).show();
                         tituloHistorico.setText("Histórico Vazio");
                     } else {
                         tituloHistorico.setText("Histórico de Pesquisas (" + historico.size() + ")");
                         adapter.atualizarLista(historico);
                     }
                 } else {
-                    Log.e("HistoricoSearch", "Erro na resposta: " + response.code());
+                    Log.e("HistoryActivity", "Erro na resposta: " + response.code());
                     try {
                         if (response.errorBody() != null) {
                             String errorString = response.errorBody().string();
-                            Log.e("HistoricoSearch", "Error body: " + errorString);
+                            Log.e("HistoryActivity", "Error body: " + errorString);
                         }
                     } catch (Exception e) {
-                        Log.e("HistoricoSearch", "Erro ao ler error body: " + e.getMessage());
+                        Log.e("HistoryActivity", "Erro ao ler error body: " + e.getMessage());
                     }
-                    Toast.makeText(HistoricoSearch.this, "Erro ao carregar histórico", Toast.LENGTH_LONG).show();
+                    Toast.makeText(HistoryActivity.this, "Erro ao carregar histórico", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Historia>> call, Throwable t) {
-                Log.e("HistoricoSearch", "Falha na requisição: " + t.getMessage(), t);
-                Toast.makeText(HistoricoSearch.this, "Erro de conexão", Toast.LENGTH_LONG).show();
+                Log.e("HistoryActivity", "Falha na requisição: " + t.getMessage(), t);
+                Toast.makeText(HistoryActivity.this, "Erro de conexão", Toast.LENGTH_LONG).show();
             }
         });
     }

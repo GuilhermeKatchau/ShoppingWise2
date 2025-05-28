@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.List;
@@ -59,12 +56,12 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(ProfileActivity.this, HistoricoSearch.class));
+                startActivity(new Intent(ProfileActivity.this, HistoryActivity.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
                 return true;
             } else if (itemId == R.id.nav_search) {
-                startActivity(new Intent(ProfileActivity.this, Pesquisa.class));
+                startActivity(new Intent(ProfileActivity.this, SearchActivity.class));
                 return true;
             } else if (itemId == R.id.nav_scan) {
                 startActivity(new Intent(ProfileActivity.this, ScannerActivity.class));
@@ -89,11 +86,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if (response.isSuccessful() && response.body() != null) {
                     List<Utilizador> utilizadores = response.body();
-                    Log.d("ProfileActivity", "Resposta da API recebida. Número de utilizadores: " + utilizadores.size());
 
                     if (!utilizadores.isEmpty()) {
                         Utilizador user = utilizadores.get(0);
-                        Log.d("ProfileActivity", "Utilizador encontrado: " + user.getNome());
                         updateUI(user);
                     } else {
                         Toast.makeText(ProfileActivity.this, "Utilizador não encontrado", Toast.LENGTH_SHORT).show();
@@ -111,8 +106,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updateUI(Utilizador user) {
-        Log.d("ProfileActivity", "Atualizando UI com dados do utilizador: " + user.getNome());
-
         try {
             // Atualizar header
             if (userNameHeader != null) {
@@ -122,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
                 userEmailHeader.setText(user.getEmail() != null ? user.getEmail() : "Email não disponível");
             }
 
-            // Atualizar seção de informações
+            // Atualizar secção de informações
             if (userName != null) {
                 userName.setText(user.getNome() != null ? user.getNome() : "Nome não disponível");
             }

@@ -32,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ShowPrice extends AppCompatActivity {
+public class ShowPriceActivity extends AppCompatActivity {
 
     private RecyclerView produtosRecyclerView;
     private ComparisonAdapter adapter;
@@ -56,16 +56,16 @@ public class ShowPrice extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_history) {
-                startActivity(new Intent(ShowPrice.this, HistoricoSearch.class));
+                startActivity(new Intent(ShowPriceActivity.this, HistoryActivity.class));
                 return true;
             } else if (itemId == R.id.nav_profile) {
-                startActivity(new Intent(ShowPrice.this, ProfileActivity.class));
+                startActivity(new Intent(ShowPriceActivity.this, ProfileActivity.class));
                 return true;
             } else if (itemId == R.id.nav_search) {
-                startActivity(new Intent(ShowPrice.this, Pesquisa.class));
+                startActivity(new Intent(ShowPriceActivity.this, SearchActivity.class));
                 return true;
             } else if (itemId == R.id.nav_scan) {
-                startActivity(new Intent(ShowPrice.this, ScannerActivity.class));
+                startActivity(new Intent(ShowPriceActivity.this, ScannerActivity.class));
                 return true;
             }
             return false;
@@ -171,36 +171,15 @@ public class ShowPrice extends AppCompatActivity {
                     api.createProduto(produtoAtual).enqueue(new Callback<List<Produto>>() {
                         @Override
                         public void onResponse(Call<List<Produto>> call, Response<List<Produto>> response) {
-                            // LOG DETALHADO PARA DEBUG
-                            Log.d("Supabase", "=== RESPONSE DEBUG ===");
-                            Log.d("Supabase", "Response code: " + response.code());
-                            Log.d("Supabase", "Response message: " + response.message());
-                            Log.d("Supabase", "Is successful: " + response.isSuccessful());
-                            Log.d("Supabase", "Response headers: " + response.headers().toString());
-
-                            // Tentar ler o corpo raw da resposta
-                            try {
-                                if (response.raw().body() != null) {
-                                    // CUIDADO: isto só funciona uma vez, depois o stream fecha
-                                    okhttp3.ResponseBody rawBody = response.raw().peekBody(Long.MAX_VALUE);
-                                    String rawString = rawBody.string();
-                                    Log.d("Supabase", "Raw response body: " + rawString);
-                                }
-                            } catch (Exception e) {
-                                Log.e("Supabase", "Erro ao ler raw body: " + e.getMessage());
-                            }
 
                             if (response.isSuccessful()) {
                                 Log.d("Supabase", "Response body is null: " + (response.body() == null));
 
                                 if (response.body() != null) {
                                     Produto produtoInserido = response.body().get(0);
-                                    Log.d("Supabase", "Produto deserializado: " + produtoInserido.getNome());
-                                    Log.d("Supabase", "ID do produto: " + produtoInserido.getId_produto());
 
                                     if (produtoInserido.getId_produto() != 0) {
                                         int idProduto = produtoInserido.getId_produto();
-                                        Log.d("Supabase", "Produto inserido com ID: " + idProduto);
 
                                         // Agora envia todos os PrecoLoja com o ID recebido
                                         for (PrecoLoja precoLoja : produtoAtual.getPrecosLojas()) {
@@ -225,7 +204,6 @@ public class ShowPrice extends AppCompatActivity {
 
                                         SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                         int idUtilizador = preferences.getInt("id", -1);
-                                        Log.d("Historia", "ID do utilizador recuperado: " + idUtilizador);
 
                                         if (idUtilizador != -1) {
                                             Historia novaHistoria = new Historia(

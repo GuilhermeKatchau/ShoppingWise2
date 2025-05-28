@@ -1,6 +1,7 @@
 package com.example.shoppingwise2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +54,15 @@ public class SignInActivity extends AppCompatActivity {
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(SignInActivity.this, "Conta criada com sucesso!", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("isLoggedIn", true);
+                        editor.putBoolean("SignedIn", true);
+                        editor.putString("nome", nome);
+                        editor.putString("email", email);
+                        editor.commit();
+
                         finish();
                     } else {
                         Toast.makeText(SignInActivity.this, "Erro: " + response.code(), Toast.LENGTH_SHORT).show();
