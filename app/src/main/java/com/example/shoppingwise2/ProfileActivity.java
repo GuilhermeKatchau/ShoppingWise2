@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import retrofit2.Response;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView userNameHeader, userEmailHeader, userName, userEmail, userMobile;
+
+    private Button logoutButton;
     private SupabaseApi api;
     private int userId;
 
@@ -34,6 +37,9 @@ public class ProfileActivity extends AppCompatActivity {
         userMobile = findViewById(R.id.user_mobile_value);
 
         setupBottomNavigation();
+
+        logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(v -> logoutUser());
 
         Log.d("ProfileActivity", "ID lido: " + userId);
 
@@ -66,7 +72,10 @@ public class ProfileActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_scan) {
                 startActivity(new Intent(ProfileActivity.this, ScannerActivity.class));
                 return true;
-            }
+            } else if (itemId == R.id.nav_preco) {
+                startActivity(new Intent(ProfileActivity.this, ShowPriceActivity.class));
+                return true;
+                }
             return false;
         });
 
@@ -132,6 +141,18 @@ public class ProfileActivity extends AppCompatActivity {
             Log.e("ProfileActivity", "Erro ao atualizar UI: " + e.getMessage(), e);
             Toast.makeText(this, "Erro ao exibir dados do utilizador", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void logoutUser() {
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        prefs.edit().clear().apply();
+
+        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+
+        Toast.makeText(ProfileActivity.this, "Sessão terminada com sucesso", Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -22,7 +22,21 @@
             android:text="Profile"
             android:textAlignment="center"
             android:textSize="30sp" />
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:text="Logout"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        android:backgroundTint="#D46A6A"
+        android:textColor="#FFFFFF" />
 
     <LinearLayout
         android:id="@+id/profile_header"
