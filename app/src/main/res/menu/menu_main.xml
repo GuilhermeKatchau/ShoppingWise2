@@ -22,6 +22,6 @@
     <item
         android:id="@+id/nav_preco"
 
-        android:title="ListaDePrecos" />
+        android:title="Produtos" />
     <!-- android:icon="@drawable/ic_scan" -->
 </menu>

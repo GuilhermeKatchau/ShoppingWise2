@@ -56,10 +56,13 @@ public class HistoryActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_search) {
                 startActivity(new Intent(HistoryActivity.this, SearchActivity.class));
                 return true;
+            } else if (itemId == R.id.nav_history) {
+                return true;
             } else if (itemId == R.id.nav_scan) {
                 startActivity(new Intent(HistoryActivity.this, ScannerActivity.class));
                 return true;
             }
+
             return false;
         });
             bottomNavigationView.setSelectedItemId(R.id.nav_history);

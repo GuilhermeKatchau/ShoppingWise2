@@ -64,6 +64,8 @@ public class ShowPriceActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_search) {
                 startActivity(new Intent(ShowPriceActivity.this, SearchActivity.class));
                 return true;
+            } else if (itemId == R.id.nav_preco) {
+                return true;
             } else if (itemId == R.id.nav_scan) {
                 startActivity(new Intent(ShowPriceActivity.this, ScannerActivity.class));
                 return true;
