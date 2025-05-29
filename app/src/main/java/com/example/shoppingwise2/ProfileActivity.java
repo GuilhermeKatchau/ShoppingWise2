@@ -19,7 +19,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView userNameHeader, userEmailHeader, userName, userEmail, userMobile;
 
-    private Button logoutButton;
     private SupabaseApi api;
     private int userId;
 
@@ -38,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         setupBottomNavigation();
 
-        logoutButton = findViewById(R.id.logout_button);
+        Button logoutButton = findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(v -> logoutUser());
 
         Log.d("ProfileActivity", "ID lido: " + userId);

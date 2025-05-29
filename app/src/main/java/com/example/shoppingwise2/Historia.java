@@ -54,7 +54,7 @@ public class Historia {
     }
 
     public String getData() {
-        return data;
+        return data.replace("T", " ");
     }
 
     public void setId(Integer id) {
