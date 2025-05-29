@@ -1,6 +1,7 @@
 package com.example.shoppingwise2;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Date;
 
 public class Historia {
 
@@ -22,12 +23,13 @@ public class Historia {
     @SerializedName("data")
     private String data;
 
-    // Construtor completo
+    
     public Historia(int idUtilizador, int idProduto, String nome, String imagem) {
         this.idUtilizador = idUtilizador;
         this.idProduto = idProduto;
         this.nome = nome;
         this.imagem = imagem;
+        this.data = new Date().toString();
     }
 
     // Getters e Setters
