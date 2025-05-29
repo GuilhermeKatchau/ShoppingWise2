@@ -97,7 +97,7 @@ public class ShowPriceActivity extends AppCompatActivity {
         ExecutorService executor = Executors.newSingleThreadExecutor(); // Usa thread pool
         executor.execute(() -> {
             try {
-                String apiKey = "e58249472ff73d22735b840bfe1c1a2d7e94bec9dcfbda5baaa6bad4673eefd8"; // <- SUBSTITUI AQUI
+                String apiKey = "eef82c0af246e4379827ac07c2df84da0dff180a59d717e2a057d77e41243230"; // <- SUBSTITUI AQUI
                 String url = "https://serpapi.com/search.json?q=" + query + "&engine=google_shopping&api_key=" + apiKey;
 
                 OkHttpClient client = new OkHttpClient();
