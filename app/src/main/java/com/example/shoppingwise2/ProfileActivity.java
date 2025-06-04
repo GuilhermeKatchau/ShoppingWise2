@@ -115,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void updateUI(Utilizador user) {
         try {
-            // Atualizar header
+
             if (userNameHeader != null) {
                 userNameHeader.setText(user.getNome() != null ? user.getNome() : "Nome não disponível");
             }
@@ -123,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
                 userEmailHeader.setText(user.getEmail() != null ? user.getEmail() : "Email não disponível");
             }
 
-            // Atualizar secção de informações
+
             if (userName != null) {
                 userName.setText(user.getNome() != null ? user.getNome() : "Nome não disponível");
             }

@@ -95,6 +95,8 @@ public class HistoryActivity extends AppCompatActivity {
                         tituloHistorico.setText("Histórico de Pesquisas (" + historico.size() + ")");
                         adapter.atualizarLista(historico);
                     }
+
+
                 } else {
                     Log.e("HistoryActivity", "Erro na resposta: " + response.code());
                     try {

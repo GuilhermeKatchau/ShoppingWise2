@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Historia {
 
-    @SerializedName("id")  // Este campo pode ser omitido ao enviar para o backend
+    @SerializedName("id")
     private Integer id;
 
     @SerializedName("id_utilizador")

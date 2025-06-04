@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Utilizador>>() {
             @Override
             public void onResponse(Call<List<Utilizador>> call, Response<List<Utilizador>> response) {
-                // Reabilita o botão
+
                 loginButton.setEnabled(true);
 
                 if (response.isSuccessful() && response.body() != null) {

@@ -115,7 +115,7 @@ public class ComparisonAdapter extends RecyclerView.Adapter<ComparisonAdapter.Pr
         }
     }
 
-    // Método para atualizar a lista
+    // Metodo para atualizar a lista
     public void atualizarLista(List<Produto> novosProdutos) {
         listaProdutos.clear();
         listaProdutos.addAll(novosProdutos);
