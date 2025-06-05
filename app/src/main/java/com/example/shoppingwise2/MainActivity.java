@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         isAuthenticated = preferences.getBoolean("isLoggedIn", false);
 
-        if (!isAuthenticated) {
+        if (isAuthenticated) {
             if (userJaRegistrado()) {
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
